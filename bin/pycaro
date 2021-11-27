@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import click
+
+
+@click.group("pycaro")
+def pycaro():
+    pass
+
+
+@pycaro.command("test")
+def test():
+    click.echo("Pycaro ready")
+
+
+if __name__ == '__main__':
+    pycaro()
