@@ -18,6 +18,6 @@ setup(
     license=license_,
     packages=find_packages(exclude=('tests', 'docs')),
     python_requires=">=3.6",
-    install_requires=["click"],
+    install_requires=["click", "termcolor"],
     scripts=["bin/pycaro"],
 )
