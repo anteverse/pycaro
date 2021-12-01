@@ -51,7 +51,7 @@ class StdoutSummary:
                 ]
             )
 
-    def render(self, entries: List[UnstableModule] = None):
+    def render(self, entries: Iterable[UnstableModule] = None):
         if not entries:
             return
 
