@@ -1,12 +1,13 @@
-from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import Iterable, List, Optional, Iterator
+from typing import Iterable, List, Iterator
 
-import click as click
-
-from . import ModuleChecker
-from .abstract import SummarySingleMethod, SummarySingleModule, SummaryStyleApplicator, TermColorStyleApplicator
-from .pycaro_types import UnstableMethod, UnstableModule
+from .abstract import (
+    SummarySingleMethod,
+    SummarySingleModule,
+    SummaryStyleApplicator,
+    TermColorStyleApplicator,
+)
+from .pycaro_types import UnstableModule
 
 
 class SimpleSummarySingleMethod(SummarySingleMethod):
@@ -22,6 +23,7 @@ class SimpleSummarySingleMethod(SummarySingleMethod):
             for unstable_var in self.unstable_method.unstable_vars
         ]
 
+
 @dataclass
 class SimpleSummarySingleModule(SummarySingleModule):
     def module_render(self, *args, **kwargs) -> str:
@@ -36,41 +38,28 @@ stdout_summary_style_applicator = SummaryStyleApplicator(
 
 
 class StdoutSummary:
-    def __init__(self,):
+    def __init__(
+        self,
+    ):
         self.style_applicator = stdout_summary_style_applicator
 
     @staticmethod
-    def generate_module_summaries(entries: List[UnstableModule]) -> Iterator[SummarySingleModule]:
+    def generate_module_summaries(
+        entries: Iterable[UnstableModule],
+    ) -> Iterator[SummarySingleModule]:
         for entry in entries:
             yield SimpleSummarySingleModule(
                 module_path=entry.module_path,
                 methods_summaries=[
-                    SimpleSummarySingleMethod(
-                        unstable_method=unstable_method
-                    ) for unstable_method in entry.unstable_methods
-                ]
+                    SimpleSummarySingleMethod(unstable_method=unstable_method)
+                    for unstable_method in entry.unstable_methods
+                ],
             )
 
     def render(self, entries: Iterable[UnstableModule] = None):
         if not entries:
             return
 
-        yield from self.style_applicator.render(entries=self.generate_module_summaries(entries=entries))
-
-
-@click.group("pycaro")
-def _pycaro():
-    pass
-
-
-@_pycaro.command("test")
-def _test():
-    m = ModuleChecker(module_name="tests.assets.case_simple_one_liner")
-    prepared_writer = StdoutSummary()
-
-    for line in prepared_writer.render(entries=[m.as_unstable_module]):
-        print(line)
-
-
-if __name__ == '__main__':
-    _test()
+        yield from self.style_applicator.render(
+            entries=self.generate_module_summaries(entries=entries)
+        )
