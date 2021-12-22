@@ -12,7 +12,7 @@ from .pycaro_types import UnstableModule
 
 class SimpleSummarySingleMethod(SummarySingleMethod):
     def method_render(self, *args, **kwargs) -> str:
-        return f"  ↳ in method {self.unstable_method.method_name}"
+        return f"  ↳ in method {self.unstable_module_object.module_object}"
 
     def vars_render(self, *args, **kwargs) -> List[str]:
         return [
@@ -20,7 +20,7 @@ class SimpleSummarySingleMethod(SummarySingleMethod):
                 f"    ↳ variable {unstable_var.var_name} at line {unstable_var.first_oc_line_no}: "
                 f"{unstable_var.line_preview}"
             )
-            for unstable_var in self.unstable_method.unstable_vars
+            for unstable_var in self.unstable_module_object.unstable_vars
         ]
 
 
@@ -51,8 +51,10 @@ class StdoutSummary:
             yield SimpleSummarySingleModule(
                 module_path=entry.module_path,
                 methods_summaries=[
-                    SimpleSummarySingleMethod(unstable_method=unstable_method)
-                    for unstable_method in entry.unstable_methods
+                    SimpleSummarySingleMethod(
+                        unstable_module_object=unstable_module_object
+                    )
+                    for unstable_module_object in entry.unstable_module_objects
                 ],
             )
 

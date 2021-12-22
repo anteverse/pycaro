@@ -1,5 +1,11 @@
-from dataclasses import dataclass, field
-from typing import List, Iterable, Iterator
+from dataclasses import dataclass
+from typing import List, Iterator
+
+
+@dataclass(frozen=True)
+class FuncCoVarsAttr:
+    co_var_name: str
+    is_attribute: bool
 
 
 @dataclass(frozen=True)
@@ -14,12 +20,12 @@ class UnstableVar:
 
 
 @dataclass(frozen=True)
-class UnstableMethod:
+class UnstableModuleObject:
     """
     For a given method name, associate all Variable objects considered unstable
     """
 
-    method_name: str
+    module_object: str
     unstable_vars: List[UnstableVar]
 
 
@@ -30,9 +36,10 @@ class UnstableModule:
     """
 
     module_path: str
-    unstable_methods: Iterator[UnstableMethod]
+    unstable_module_objects: Iterator[UnstableModuleObject]
 
     def __post_init__(self):
+        # TODO: remove check
         self.module_path = (
             self.module_path
             if self.module_path.endswith(".py")

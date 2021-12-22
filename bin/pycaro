@@ -3,8 +3,9 @@ from typing import Tuple
 
 import click
 
-from pycaro import ModuleChecker
+from pycaro.files import get_files
 from pycaro.render import StdoutSummary
+from pycaro.validate import get_module_checker_generator
 
 
 @click.group("pycaro")
@@ -21,21 +22,19 @@ def test():
 @click.argument(
     "src",
     nargs=-1,
-    # type=click.Path(
-    #     exists=True, file_okay=True, dir_okay=True, readable=True, allow_dash=True
-    # ),
-    type=str,
+    type=click.Path(
+        exists=True, file_okay=True, dir_okay=True, readable=True, allow_dash=True
+    ),
     is_eager=True,
     metavar="SRC ...",
 )
 def check(src: Tuple[str, ...]):
-
     prepared_writer = StdoutSummary()
 
     for line in prepared_writer.render(
-        entries=(ModuleChecker(s).as_unstable_module for s in src)
+        entries=get_module_checker_generator(get_files(src))
     ):
-        print(line)
+        click.echo(line)
 
 
 if __name__ == "__main__":

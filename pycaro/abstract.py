@@ -4,12 +4,12 @@ from typing import List, Iterator, Iterable
 
 from termcolor import colored
 
-from pycaro.pycaro_types import UnstableMethod
+from pycaro.pycaro_types import UnstableModuleObject
 
 
 @dataclass
 class SummarySingleMethod(metaclass=ABCMeta):
-    unstable_method: UnstableMethod
+    unstable_module_object: UnstableModuleObject
 
     @abstractmethod
     def method_render(self, *args, **kwargs) -> str:
