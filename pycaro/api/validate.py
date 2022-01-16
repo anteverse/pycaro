@@ -5,10 +5,10 @@ from inspect import getsource
 from pathlib import Path
 from typing import Iterator, Optional, List
 
-from .constants import BUILTIN_OBJECTS
-from .files import find_project_root, get_path_from_root, get_absolute_path
-from .logger import get_logger
-from .pycaro_types import (
+from pycaro.api.constants import BUILTIN_OBJECTS
+from pycaro.api.files import find_project_root, get_path_from_root, get_absolute_path
+from pycaro.api.logger import get_logger
+from pycaro.api.pycaro_types import (
     UnstableVar,
     UnstableModuleObject,
     UnstableModule,

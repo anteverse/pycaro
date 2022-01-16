@@ -3,9 +3,9 @@ from typing import Tuple
 
 import click
 
-from pycaro.files import get_files
+from pycaro.api.files import get_files
 from pycaro.render import StdoutSummary
-from pycaro.validate import get_module_checker_generator
+from pycaro.api.validate import get_module_checker_generator
 
 
 @click.group("pycaro")

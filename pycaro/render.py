@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 from typing import Iterable, List, Iterator
 
-from .abstract import (
+from pycaro.api.interfaces import (
     SummarySingleMethod,
     SummarySingleModule,
     SummaryStyleApplicator,
     TermColorStyleApplicator,
 )
-from .pycaro_types import UnstableModule
+from pycaro.api.pycaro_types import UnstableModule
 
 
 class SimpleSummarySingleMethod(SummarySingleMethod):
@@ -38,6 +38,11 @@ stdout_summary_style_applicator = SummaryStyleApplicator(
 
 
 class StdoutSummary:
+    """
+    Renderer using style applicators based on `termcolor`.
+
+    Default for CLI.
+    """
     def __init__(
         self,
     ):

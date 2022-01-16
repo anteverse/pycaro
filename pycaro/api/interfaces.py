@@ -4,7 +4,7 @@ from typing import List, Iterator, Iterable
 
 from termcolor import colored
 
-from pycaro.pycaro_types import UnstableModuleObject
+from pycaro.api.pycaro_types import UnstableModuleObject
 
 
 @dataclass
