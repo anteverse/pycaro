@@ -5,11 +5,8 @@ from pycaro import ModuleChecker
 
 def test_var_in_main():
     m = ModuleChecker(file_path=Path("tests/assets/case_simple_var_in_main.py"))
-
     res = m.check("do_something")
     assert res["var"] is False
-    assert res["print"] is True
-
     assert m.get_var_name_first_usage(module_object="do_something", var_name="var").first_oc_line_no == 5
 
 
