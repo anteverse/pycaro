@@ -7,25 +7,25 @@ from pathspec.patterns.gitwildmatch import GitWildMatchPatternError
 
 
 @lru_cache()
-def find_project_root(srcs: Sequence[str]) -> Path:
+def find_project_root(sources: Sequence[str]) -> Path:
     """
     COPIED FROM psf/black
 
     Return a directory containing .git, .hg, or pyproject.toml.
     That directory will be a common parent of all files and directories
-    passed in `srcs`.
+    passed in `sources`.
     If no directory in the tree contains a marker that would specify it's the
     project root, the root of the file system is returned.
     """
-    if not srcs:
-        srcs = [str(Path.cwd().resolve())]
+    if not sources:
+        sources = [str(Path.cwd().resolve())]
 
-    path_srcs = [Path(Path.cwd(), src).resolve() for src in srcs]
+    path_sources = [Path(Path.cwd(), src).resolve() for src in sources]
 
     # A list of lists of parents for each 'src'. 'src' is included as a
     # "parent" of itself if it is a directory
     src_parents = [
-        list(path.parents) + ([path] if path.is_dir() else []) for path in path_srcs
+        list(path.parents) + ([path] if path.is_dir() else []) for path in path_sources
     ]
 
     common_base = max(
@@ -49,7 +49,7 @@ def find_project_root(srcs: Sequence[str]) -> Path:
 @lru_cache()
 def get_gitignore(root: Path) -> PathSpec:
     """Return a PathSpec matching gitignore content if present."""
-    gitignore = root / ".gitignore"
+    gitignore = root.joinpath(".gitignore")
     lines: List[str] = []
     if gitignore.is_file():
         with gitignore.open(encoding="utf-8") as gf:
@@ -103,6 +103,7 @@ def gen_python_files(
             child,
             root,
         )
+
         if normalized_path is None:
             continue
 
@@ -136,14 +137,3 @@ def get_files(
         root=root,
         gitignore=get_gitignore(root=root),
     )
-
-
-# if __name__ == '__main__':
-#     # print(find_project_root(None))
-#
-#     for x in gen_python_files([Path("/Users/aureliendidier/github.com/anteverse/pycaro/tests")], root=Path("/Users/aureliendidier/github.com/anteverse/pycaro"), gitignore=get_gitignore(Path("/Users/aureliendidier/github.com/anteverse/pycaro"))):
-#         print(x)
-#
-#     m = ModuleChecker(module_name="tests.assets.case_simple_one_liner")
-#
-#     # print(get_gitignore(Path("/Users/aureliendidier/github.com/anteverse/pycaro")))

@@ -32,11 +32,12 @@ class SummarySingleModule:
 
 @dataclass
 class StyleApplicator(metaclass=ABCMeta):
+    @abstractmethod
     def apply(
         self,
         text: str
     ):
-        return text
+        raise NotImplementedError
 
 
 @dataclass
