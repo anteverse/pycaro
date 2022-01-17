@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+from typing import Tuple
+
+import click
+
+from pycaro.api.files import get_files
+from pycaro.render import StdoutSummary
+from pycaro.api.validate import get_module_checker_generator
+
+
+@click.group("pycaro")
+def pycaro():
+    pass
+
+
+@pycaro.command("test")
+def test():
+    click.echo("Pycaro ready")
+
+
+@pycaro.command("check")
+@click.argument(
+    "src",
+    nargs=-1,
+    type=click.Path(
+        exists=True, file_okay=True, dir_okay=True, readable=True, allow_dash=True
+    ),
+    is_eager=True,
+    metavar="SRC ...",
+)
+def check(src: Tuple[str, ...]):
+    prepared_writer = StdoutSummary()
+
+    for line in prepared_writer.render(
+        entries=get_module_checker_generator(get_files(src))
+    ):
+        click.echo(line)
+
+
+if __name__ == "__main__":
+    pycaro()
