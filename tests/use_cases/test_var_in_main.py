@@ -4,14 +4,14 @@ from pycaro import ModuleChecker
 
 
 def test_var_in_main():
-    m = ModuleChecker(file_path=Path("tests/assets/case_simple_var_in_main.py"))
+    m = ModuleChecker(file_path=Path("tests/use_cases/assets/case_simple_var_in_main.py"))
     res = m.check("do_something")
     assert res["var"] is False
     assert m.get_var_name_first_usage(module_object="do_something", var_name="var").first_oc_line_no == 5
 
 
 def test_check_all():
-    m = ModuleChecker(file_path=Path("tests/assets/case_simple_var_in_main.py"))
+    m = ModuleChecker(file_path=Path("tests/use_cases/assets/case_simple_var_in_main.py"))
 
     unstable_module_objects = list(m.unstable_module_objects)
     assert len(unstable_module_objects) == 1

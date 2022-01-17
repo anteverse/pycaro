@@ -4,7 +4,7 @@ from pycaro import ModuleChecker
 
 
 def test_one_liner():
-    m = ModuleChecker(file_path=Path("tests/assets/case_simple_one_liner.py"))
+    m = ModuleChecker(file_path=Path("tests/use_cases/assets/case_simple_one_liner.py"))
 
     unstable_module_objects = list(m.unstable_module_objects)
     assert len(unstable_module_objects) == 1
