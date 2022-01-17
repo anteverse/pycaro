@@ -3,3 +3,23 @@ addopts = "--no-cov-on-fail -p no:cacheprovider --cov pycaro --cov-report html -
 testpaths = [
     "tests",
 ]
+
+
+[tool.black]
+line-length = 88
+target-version = ['py36', 'py37', 'py38', 'py39']
+include = '\.pyi?$'
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
