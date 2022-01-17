@@ -26,24 +26,36 @@ class A(SummarySingleMethod):
         )
 
 
+@pytest.fixture
+def summary_single_method():
+    return lambda *args, **kwargs: A(*args, **kwargs)
+
+
 class B(SummarySingleModule):
     def module_render(self, *args, **kwargs) -> str:
         return self.module_path
 
 
-def test_summary_single_method(unstable_module_object,):
+@pytest.fixture
+def summary_single_module():
+    return lambda *args, **kwargs: B(*args, **kwargs)
 
-    rendered = A(unstable_module_object=unstable_module_object)
+
+def test_summary_single_method(unstable_module_object, summary_single_method):
+
+    rendered = summary_single_method(unstable_module_object=unstable_module_object)
 
     assert rendered.method_render() == "fake-module"
     assert rendered.vars_render() == "var1"
 
 
-def test_summary_single_module(unstable_module_object):
-    rendered = B(
+def test_summary_single_module(
+    unstable_module_object, summary_single_method, summary_single_module
+):
+    rendered = summary_single_module(
         module_path="path/to/module.py",
         methods_summaries=[
-            A(unstable_module_object=unstable_module_object),
-        ]
+            summary_single_method(unstable_module_object=unstable_module_object),
+        ],
     )
     assert rendered.module_render() == "path/to/module.py"
