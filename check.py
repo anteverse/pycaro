@@ -2,7 +2,7 @@ from typing import Tuple
 
 from pycaro import ModuleChecker
 from pycaro.files import get_files
-from pycaro.render import StdoutSummary
+from pycaro.report import StdoutSummary
 
 
 def check(src: Tuple[str, ...]):

@@ -4,7 +4,7 @@ from typing import Tuple
 import click
 
 from pycaro.api.files import get_files
-from pycaro.render import StdoutSummary
+from pycaro.report import StdoutSummary
 from pycaro.api.validate import get_module_checker_generator
 
 

@@ -1,7 +1,7 @@
 import pytest
 
 from pycaro.api.pycaro_types import UnstableModule, UnstableModuleObject, UnstableVar
-from pycaro.render import StdoutSummary
+from pycaro.report import StdoutSummary
 
 
 def test_stdout_summary_empty():
